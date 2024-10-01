@@ -9,62 +9,47 @@ using System.Windows.Media;
 
 namespace BeeBuisness
 {
-    internal class HoneyVault
+    static class HoneyVault
     {
-        const float NECTAR_CONVERSION_RATIO = .19f;
-        const float LOW_LEVEL_WARNING = 10f;
-        private float honey = 25f;
-        private float nectar = 100f;
+        public const float NECTAR_CONVERSION_RATIO = .19f;
+        public const float LOW_LEVEL_WARNING = 10f;
+        private static float honey = 25f;
+        private static float nectar = 100f;
 
-        void ConvertNectarToHoney(float amount)
+        public static void CollectNectar(float amount)
         {
-            if (amount > nectar)
-            {
-                honey += nectar * NECTAR_CONVERSION_RATIO;
-                nectar = 0f;
-            }
-            else
-            {
-                nectar -= amount;
-                honey += amount * NECTAR_CONVERSION_RATIO;
-            }
+            if (amount > 0f) nectar += amount;
         }
 
-        public bool ConsumeHoney(float amount)
+        public static void ConvertNectarToHoney(float amount)
         {
-            if (amount >= honey)
+            float nectarToConvert = amount;
+            if (nectarToConvert > nectar) nectarToConvert = nectar;
+            nectar -= nectarToConvert;
+            honey += nectarToConvert * NECTAR_CONVERSION_RATIO;
+        }
+
+        public static bool ConsumeHoney(float amount)
+        {
+            if (honey >= amount)
             {
                 honey -= amount;
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
-        void CollectNectar(float amount)
-        {
-            if (amount >= 0f)
-            {
-                honey += amount;
-            }
-        }
-
-        public string StatusReport
+        public static string StatusReport
         {
             get
             {
-                string status = $" {honey: 0.0} units of honey\n" + $"{nectar: 0.0} units of nectar\n";
+                string status = $"{honey:0.0} units of honey\n" +
+                                $"{nectar:0.0} units of nectar";
                 string warnings = "";
-                if (honey < LOW_LEVEL_WARNING)
-                {
-                    warnings += "\n LOW HONEY -- ADD A HONEY MANIFACTURER";
-                }
-                if (nectar < LOW_LEVEL_WARNING)
-                {
-                    warnings += "\n LOW NECRAR -- ADD A NECTAR COLLECTOR";
-                }
+                if (honey < LOW_LEVEL_WARNING) warnings +=
+                                    "\nLOW HONEY - ADD A HONEY MANUFACTURER";
+                if (nectar < LOW_LEVEL_WARNING) warnings +=
+                                    "\nLOW NECTAR - ADD A NECTAR COLLECTOR";
                 return status + warnings;
             }
         }

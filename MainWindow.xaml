@@ -7,11 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
-   <!--<Window.Resources>
+    <Window.Resources>
         <local:Queen x:Key="queen"/>
-    </Window.Resources> -->
+    </Window.Resources>
 
-    <Grid DataContext="{StaticResource queen} ">
+    <Grid DataContext="{StaticResource queen}">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="4*"/>
@@ -44,5 +44,4 @@
             x:Name="statusReport" IsReadOnly="True"
         Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="20"/>
     </Grid>
-
 </Window>
